@@ -1,9 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should display the correct amount of expenses and correct toal 1`] = `
+exports[`should correctly render ExpensesSummary with 1 expense 1`] = `
 <div>
-  <p>
-    114195
-  </p>
+  <h1>
+    Viewing 
+    1
+     
+    expense
+     totaling 
+    $2.34
+  </h1>
+</div>
+`;
+
+exports[`should correctly render ExpensesSummary with multiple expenses 1`] = `
+<div>
+  <h1>
+    Viewing 
+    23
+     
+    expenses
+     totaling 
+    $235,798,768.76
+  </h1>
 </div>
 `;
