@@ -19,10 +19,10 @@ export const addExpense = (expense) => ({
 export const startAddExpense = (expenseData = {}) => {
     return (dispatch) => {
         const {
-            description,
-            note,
-            amount,
-            createdAt
+            description = '',
+            note = '',
+            amount = 0,
+            createdAt = 0
         } = expenseData;
         const expense = {description, note, amount, createdAt};
         return database.ref('expenses').push(expense) // return for testing so we can chain the promise
