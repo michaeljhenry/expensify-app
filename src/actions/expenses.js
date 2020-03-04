@@ -77,3 +77,17 @@ export const startSetExpenses = () => {
     }
 };
 
+// Create startRemoveExpense (same call signature as removeExpense)
+// Test startRemoveExpense with "should remove expenses from firebase"
+// Use startRemoveExpense in EditExpensePage instead of removeExpense
+// Adjust EditExpensePage tests
+
+export const startRemoveExpense = ({id} = {} ) => {
+    return(dispatch) => {
+        return database.ref(`expenses/${id}`).remove()
+        .then(() => {
+            dispatch(removeExpense({id}));
+        });
+    };
+};
+
