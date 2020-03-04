@@ -17,7 +17,8 @@ export const addExpense = (expense) => ({
 });
 
 export const startAddExpense = (expenseData = {}) => {
-    return (dispatch) => {
+    return (dispatch, getState) => {
+        const uid = getState().auth.uid;
         const {
             description = '',
             note = '',
@@ -25,7 +26,7 @@ export const startAddExpense = (expenseData = {}) => {
             createdAt = 0
         } = expenseData;
         const expense = {description, note, amount, createdAt};
-        return database.ref('expenses').push(expense) // return for testing so we can chain the promise
+        return database.ref(`users/${uid}/expenses`).push(expense) // return for testing so we can chain the promise
         .then((ref) => {
             dispatch(addExpense({
                 id: ref.key,
@@ -62,8 +63,10 @@ export const setExpenses = (expenses) => ({
 //3. Dispatch SET_EXPENSES
 
 export const startSetExpenses = () => {
-    return (dispatch) => { // RETURNING A FUNCTION THAT 
-        return database.ref('expenses').once('value') // RETURNS A PROMISE
+    
+    return (dispatch, getState) => { // RETURNING A FUNCTION THAT
+        const uid = getState().auth.uid;
+        return database.ref(`users/${uid}/expenses`).once('value') // RETURNS A PROMISE
         .then((snapshot) => {
             let expensesArray = [];
             snapshot.forEach((childSnapshot) => {
@@ -83,8 +86,9 @@ export const startSetExpenses = () => {
 // Adjust EditExpensePage tests
 
 export const startRemoveExpense = ({id} = {} ) => {
-    return(dispatch) => {
-        return database.ref(`expenses/${id}`).remove()
+    return(dispatch, getState) => {
+        const uid = getState().auth.uid;
+        return database.ref(`users/${uid}/expenses/${id}`).remove()
         .then(() => {
             dispatch(removeExpense({id}));
         });
@@ -92,8 +96,9 @@ export const startRemoveExpense = ({id} = {} ) => {
 };
 
 export const startEditExpense = (id, updates) => {
-    return(dispatch) => {
-        return database.ref(`expenses/${id}`).update(updates)
+    return(dispatch, getState) => {
+        const uid = getState().auth.uid;
+        return database.ref(`users/${uid}/expenses/${id}`).update(updates)
         .then(() => {
             dispatch(editExpense(id, updates))
         });
