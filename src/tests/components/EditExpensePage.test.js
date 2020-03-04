@@ -3,18 +3,18 @@ import {shallow} from 'enzyme';
 import {EditExpensePage} from '../../components/EditExpensePage';
 import expenses from '../fixtures/expenses';
 
-let editExpense;
+let startEditExpense;
 let startRemoveExpense;
 let history;
 let wrapper;
 
 beforeEach(() => {
-  editExpense = jest.fn();
+  startEditExpense = jest.fn();
   startRemoveExpense = jest.fn();
   history = { push: jest.fn() };
   wrapper = shallow(
     <EditExpensePage
-      editExpense={editExpense}
+      startEditExpense={startEditExpense}
       startRemoveExpense={startRemoveExpense}
       history={history}
       expense={expenses[1]}
@@ -35,24 +35,24 @@ beforeEach(() => {
 
 test('should render EditExpensePage correctly', () => {
     const startRemoveExpense = jest.fn();
-    const editExpense = jest.fn();
+    const startEditExpense = jest.fn();
     const history = {push: jest.fn() };
-    const wrapper = shallow(<EditExpensePage editExpense = {editExpense} startRemoveExpense = {startRemoveExpense} history = {history} expense = {expenses[1]}/>);
+    const wrapper = shallow(<EditExpensePage startEditExpense = {startEditExpense} startRemoveExpense = {startRemoveExpense} history = {history} expense = {expenses[1]}/>);
     expect(wrapper).toMatchSnapshot();
 });
 
 test('should handle editExpense correctly', () => {
-    const editExpense = jest.fn();
+    const startEditExpense = jest.fn();
     const history = {push: jest.fn() };
-    const wrapper = shallow(<EditExpensePage expense = {expenses[1]} editExpense = {editExpense} startRemoveExpense = {startRemoveExpense} history = {history}/>);
+    const wrapper = shallow(<EditExpensePage expense = {expenses[1]} startEditExpense = {startEditExpense} startRemoveExpense = {startRemoveExpense} history = {history}/>);
     wrapper.find('ExpenseForm').prop('onSubmit')(expenses[1]);
     expect(history.push).toHaveBeenLastCalledWith('/');
-    expect(editExpense).toHaveBeenLastCalledWith(expenses[1].id, expenses[1]);
+    expect(startEditExpense).toHaveBeenLastCalledWith(expenses[1].id, expenses[1]);
 });
 
 test('should handle removeExpense', () => {
     // const removeExpense = jest.fn();
-    // const editExpense = jest.fn();
+    // const startEditExpense = jest.fn();
     // const history = {push: jest.fn()};
     // const wrapper = shallow(<EditExpensePage expense = {expenses[2]} history = {history} editExpense = {editExpense} removeExpense = {removeExpense}/>);
     wrapper.find('button').simulate('click');
